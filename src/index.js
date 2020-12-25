@@ -26,14 +26,14 @@ app.commandLine.appendSwitch('ppapi-flash-version', '31.0.0.122');
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1230,
-    height: 860,
+    show: false,
     useContentSize: true,
     webPreferences: {
       plugins: true
     }
   });
-
+  mainWindow.maximize()
+  mainWindow.show()
   mainWindow.loadURL("https://newcp.net");
 
 };
