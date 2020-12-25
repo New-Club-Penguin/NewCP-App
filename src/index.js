@@ -34,6 +34,7 @@ const createWindow = () => {
   });
   mainWindow.maximize()
   mainWindow.show()
+  mainWindow.setMenuBarVisibility(false)
   mainWindow.loadURL("https://newcp.net");
 
 };
