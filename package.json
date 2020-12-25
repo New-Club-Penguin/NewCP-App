@@ -12,7 +12,7 @@
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
-  "author": "Dote",
+  "author": "New Club Penguin Team",
   "license": "MIT",
   "config": {
     "forge": {
@@ -24,7 +24,9 @@
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "newcp",
-            "authors": "Dote"
+            "authors": "New Club Penguin Team",
+			"loadingGif": "loading.gif",
+			"setupIcon": "icon.ico"
           }
         },
         {
