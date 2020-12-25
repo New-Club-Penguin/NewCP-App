@@ -26,6 +26,7 @@
             "name": "newcp",
             "authors": "New Club Penguin Team",
 			"loadingGif": "loading.gif",
+			"icon": "icon",
 			"setupIcon": "icon.ico"
           }
         },
