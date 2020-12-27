@@ -1,7 +1,7 @@
 {
   "name": "NewCP",
   "productName": "NewCP",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "NewCP App",
   "main": "src/index.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
+    "publish-git": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
@@ -16,13 +17,17 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "lib/icons/icon.icns"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "newcp",
-            "authors": "Dote"
+            "authors": "Dote",
+            "loadingGif": "./src/assets/default-splash.gif",
+            "setupIcon": "./lib/icons/icon.ico"
           }
         },
         {
@@ -39,22 +44,22 @@
           "name": "@electron-forge/maker-rpm",
           "config": {}
         }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "New-Club-Penguin",
+              "name": "NewCP-App-Build"
+            },
+            "prerelease": true,
+            "authToken": "af166f355ddeffbeb2172658ab55080c5dc9ae8f"
+          }
+        }
       ]
     }
   },
-  "publishers": [
-    {
-      "name": "@electron-forge/publisher-github",
-      "config": {
-        "repository": {
-          "owner": "New-Club-Penguin",
-          "name": "NewCP-App"
-        },
-        "prerelease": true,
-        "authToken": "e5ba3749cee9db2ea8f5517c957d1e1b03caa7da"
-      }
-    }
-  ],
   "build": {
     "extraResources": [
       {
@@ -64,10 +69,32 @@
           "**/*"
         ]
       }
+    ],
+    "appId": "com.newcp.ncp-app",
+    "productName": "NewCP",
+    "copyright": "Copyright © 2020 ${author}",
+    "mac": {
+      "icon": "./lib/icons/icon.icns",
+      "category": "lib.games.newcp"
+    },
+    "win": {
+      "icon": "./lib/icons/icon.png"
+    },
+    "directories": {
+      "buildResources": "lib"
+    },
+    "protocols": [
+      {
+        "name": "newcp",
+        "schemes": [
+          "newcp"
+        ]
+      }
     ]
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "update-electron-app": "^2.0.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
@@ -75,6 +102,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "@electron-forge/publisher-github": "^6.0.0-beta.54",
     "electron": "11.1.1"
   }
 }
