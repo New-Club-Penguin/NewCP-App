@@ -1,7 +1,7 @@
 {
   "name": "NewCP",
   "productName": "NewCP",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "NewCP App",
   "main": "src/index.js",
   "scripts": {
@@ -93,6 +93,9 @@
     ]
   },
   "dependencies": {
+    "async-dialog": "0.0.1",
+    "dialogs": "^2.0.1",
+    "electron-prompt": "^1.6.0",
     "electron-squirrel-startup": "^1.0.0",
     "update-electron-app": "^2.0.1"
   },
