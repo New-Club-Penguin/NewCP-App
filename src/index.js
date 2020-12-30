@@ -1,6 +1,7 @@
 const { app, BrowserWindow, autoUpdater } = require('electron');
 const path = require('path');
 require('update-electron-app')({repo: 'New-Club-Penguin/NewCP-App-Build'});
+const discord_client = require('discord-rich-presence')('793878460157788220');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -60,6 +61,14 @@ const createWindow = () => {
     mainWindow.minimize();
     mainWindow.maximize();
     mainWindow.show();
+
+    discord_client.updatePresence({
+      state: 'Waddling',
+      details: 'New Club Penguin',
+      startTimestamp: Date.now(),
+      largeImageKey: 'ncpapp',
+      instance: true
+    });
   });
 
   new Promise(resolve => setTimeout(function() {mainWindow.loadURL("https://newcp.net/"); resolve();}, 5000));
@@ -90,6 +99,7 @@ if (!gotTheLock) {
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
       app.quit();
+      discord_client.disconnect();
     }
   });
 
