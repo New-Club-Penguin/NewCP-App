@@ -18,13 +18,13 @@ switch (process.platform) {
     break
   case 'linux':
     pluginName = 'lib/libpepflashplayer.so'
+	app.commandLine.appendSwitch('no-sandbox');
     break
 }
 pluginName = path.join(path.dirname(__dirname), pluginName);
 console.log("pluginName", pluginName);
 app.commandLine.appendSwitch('ppapi-flash-path', pluginName);
 app.commandLine.appendSwitch('ppapi-flash-version', '31.0.0.122');
-app.commandLine.appendSwitch('no-sandbox');
 
 let mainWindow;
 const createWindow = () => {
