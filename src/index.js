@@ -25,6 +25,7 @@ pluginName = path.join(path.dirname(__dirname), pluginName);
 console.log("pluginName", pluginName);
 app.commandLine.appendSwitch('ppapi-flash-path', pluginName);
 app.commandLine.appendSwitch('ppapi-flash-version', '31.0.0.122');
+app.commandLine.appendSwitch("disable-http-cache");
 
 let mainWindow;
 const createWindow = () => {
