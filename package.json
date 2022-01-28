@@ -1,7 +1,7 @@
 {
     "name": "NewCP",
     "productName": "NewCP",
-    "version": "1.3.6",
+    "version": "1.3.43",
     "description": "NewCP App",
     "main": "src/index.js",
     "scripts": {
@@ -74,15 +74,7 @@
         "copyright": "Copyright © 2020 ${author}",
         "mac": {
             "icon": "./lib/icons/icon.icns",
-            "category": "lib.games.newcp",
-            "target": [{
-                    "target": "default",
-                    "arch": [
-                        "x64",
-                        "arm64"
-                    ]
-                }
-            ]
+            "category": "lib.games.newcp"
         },
         "win": {
             "icon": "./lib/icons/icon.png"
