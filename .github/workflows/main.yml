@@ -33,3 +33,7 @@ jobs:
 
       - name: Make and Publish
         run: yarn run publish
+        
+      - name: Make and Publish (ARM M1)
+        if: startsWith(matrix.os, 'macos')
+        run: yarn electron-forge publish --arch=arm64
