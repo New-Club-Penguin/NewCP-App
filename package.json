@@ -44,10 +44,8 @@
                 }, {
                     "name": "@electron-forge/maker-rpm",
                     "config": {}
-                },{
-                    "name": "@electron-forge/maker-appx",
-                    "config": {}
                 }
+  
             ],
             "publishers": [{
                     "name": "@electron-forge/publisher-github",
