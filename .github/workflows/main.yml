@@ -37,8 +37,8 @@ jobs:
 
       - name: Make and Publish (WINDOWS)
         if: startsWith(matrix.os, 'windows')
-        run: yarn electron-forge publish --arch=ia32,x64
+        run: "yarn electron-forge publish --arch=ia32,x64"
         
       - name: Make and Publish (MAC)
         if: startsWith(matrix.os, 'macos')
-        run: yarn electron-forge publish --arch=arm64,x64
+        run: "yarn electron-forge publish --arch=arm64,x64"
