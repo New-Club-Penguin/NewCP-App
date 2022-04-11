@@ -31,9 +31,14 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Make and Publish
-        run: yarn run publish
+      - name: Make and Publish (Ubuntu)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: yarn electron-forge publish
+
+      - name: Make and Publish (WINDOWS)
+        if: startsWith(matrix.os, 'windows')
+        run: yarn electron-forge publish --arch=ia32,x64
         
-      - name: Make and Publish (ARM M1)
+      - name: Make and Publish (MAC)
         if: startsWith(matrix.os, 'macos')
-        run: yarn electron-forge publish --arch=arm64
+        run: yarn electron-forge publish --arch=arm64,x64
