@@ -33,12 +33,12 @@ jobs:
 
       - name: Make and Publish (Ubuntu)
         if: startsWith(matrix.os, 'ubuntu')
-        run: yarn electron-forge publish
+        run: yarn run publish
 
       - name: Make and Publish (WINDOWS)
         if: startsWith(matrix.os, 'windows')
-        run: "yarn electron-forge publish --arch=ia32,x64"
+        run: yarn run publish-windows
         
       - name: Make and Publish (MAC)
         if: startsWith(matrix.os, 'macos')
-        run: "yarn electron-forge publish --arch=arm64,x64"
+        run: yarn run publish-mac
