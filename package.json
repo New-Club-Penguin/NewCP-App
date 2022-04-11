@@ -9,6 +9,8 @@
         "package": "electron-forge package",
         "make": "electron-forge make",
         "publish": "electron-forge publish",
+        "publish-windows": "electron-forge publish --arch=ia32,x64",
+        "publish-mac": "electron-forge publish --arch=arm64,x64",
         "publish-git": "electron-forge publish",
         "lint": "echo \"No linting configured\""
     },
