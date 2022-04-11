@@ -8,7 +8,7 @@
         "start": "electron-forge start",
         "package": "electron-forge package",
         "make": "electron-forge make",
-        "publish": "electron-forge publish --arch=ia32,x64",
+        "publish": "electron-forge publish",
         "publish-git": "electron-forge publish",
         "lint": "echo \"No linting configured\""
     },
