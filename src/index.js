@@ -3,6 +3,11 @@ const path = require('path');
 require('update-electron-app')({repo: 'New-Club-Penguin/NewCP-App-Build'});
 const discord_client = require('discord-rich-presence')('793878460157788220');
 
+const ALLOWED_ORIGINS = [
+  "https://newcp.net",
+  "https://play.newcp.net"
+];
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
@@ -72,6 +77,13 @@ const createWindow = () => {
       largeImageKey: 'ncpapp',
       instance: true
     });
+  });
+
+  mainWindow.webContents.on('will-navigate', (event, urlString) => {
+    let url = new URL(urlString);
+    if (!ALLOWED_ORIGINS.includes(url.origin)) {
+      event.preventDefault();
+    }
   });
 
   new Promise(resolve => setTimeout(function() {mainWindow.loadURL("https://newcp.net/"); resolve();}, 5000));
