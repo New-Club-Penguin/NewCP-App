@@ -6,6 +6,7 @@ const discord_client = require('discord-rich-presence')('793878460157788220');
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
+  process.exit(0); // because squirrel
 }
 
 let pluginName;
@@ -82,6 +83,7 @@ const gotTheLock = app.requestSingleInstanceLock()
 
 if (!gotTheLock) {
   app.quit();
+  process.exit(0); // because squirrel
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
     // Someone tried to run a second instance, we should focus our window.
