@@ -1,7 +1,7 @@
 {
     "name": "NewCP",
     "productName": "NewCP",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "description": "NewCP App",
     "main": "src/index.js",
     "scripts": {
