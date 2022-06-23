@@ -34,16 +34,16 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         run: yarn run publish
         env:
-          - GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
 
       - name: Make and Publish (WINDOWS)
         if: startsWith(matrix.os, 'windows')
         run: yarn run publish-windows
         env:
-          - GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
         
       - name: Make and Publish (MAC)
         if: startsWith(matrix.os, 'macos')
         run: yarn run publish-mac
         env:
-          - GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
