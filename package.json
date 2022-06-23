@@ -1,7 +1,7 @@
 {
   "name": "NewCP",
   "productName": "NewCP",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "NewCP App",
   "main": "src/main.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
-  "author": "Dote",
+  "author": "NewCP",
   "license": "MIT",
   "config": {
     "forge": {
@@ -26,7 +26,7 @@
         "name": "@electron-forge/maker-squirrel",
         "config": {
           "name": "newcp",
-          "authors": "Dote",
+          "authors": "NewCP",
           "loadingGif": "./src/assets/default-splash.gif",
           "setupIcon": "./lib/icons/icon.ico"
         }
@@ -54,8 +54,7 @@
             "owner": "New-Club-Penguin",
             "name": "NewCP-App-Build"
           },
-          "prerelease": true,
-          "authToken": "af166f355ddeffbeb2172658ab55080c5dc9ae8f"
+          "prerelease": true
         }
       }]
     }
