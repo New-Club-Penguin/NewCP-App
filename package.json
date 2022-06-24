@@ -46,6 +46,15 @@
       }, {
         "name": "@electron-forge/maker-rpm",
         "config": {}
+      }, {
+        "name": "@electron-forge/maker-flatpak",
+        "config": {
+          "genericName": "NewCP",
+          "productName": "NewCP",
+          "categories": ["Game"],
+          "icon": "./lib/icons/icon.ico"
+
+        }
       }],
       "publishers": [{
         "name": "@electron-forge/publisher-github",
