@@ -1,7 +1,7 @@
 {
   "name": "NewCP",
   "productName": "NewCP",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "NewCP App",
   "main": "src/main.js",
   "scripts": {
@@ -46,6 +46,15 @@
       }, {
         "name": "@electron-forge/maker-rpm",
         "config": {}
+      }, {
+        "name": "@electron-forge/maker-flatpak",
+        "config": {
+          "genericName": "NewCP",
+          "productName": "NewCP",
+          "categories": ["Game"],
+          "icon": "./lib/icons/icon.ico"
+
+        }
       }],
       "publishers": [{
         "name": "@electron-forge/publisher-github",
