@@ -4,7 +4,7 @@ NewCP-App is an electron based client for running New Club Penguin. It comes wit
 
 # Contributing
 
-All contributions are welcome. People who discover bugs with the clients may open new issues (please keep in mind that you should only open a new issue if it is a bug with the client, NOT a bug with the game), and people may open pull requests to add new features or fix bugs. Do not expect to be paid for contributing, however if your contribution was meaningful, you may be credited. Active contributors may be recruited as a developer for NewCP, but this is not guaranteed. 
+All contributions are welcome. People who discover bugs with the client may open new issues (please keep in mind that you should only open a new issue if it is a bug with the client, NOT a bug with the game), and people may open pull requests to add new features or fix bugs. Do not expect to be paid for contributing, however if your contribution was meaningful, you may be credited. Active contributors may be recruited as a developer for NewCP, but this is not guaranteed. 
 
 **NOTE: The following instructions are for people who want to contribute. If you are here to play NewCP, please use our prebuilt binaries from [here](https://github.com/New-Club-Penguin/NewCP-App-Build/releases)**.
 
