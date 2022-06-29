@@ -1,6 +1,7 @@
 const { app, BrowserWindow, autoUpdater } = require("electron");
 const path = require("path");
-require("update-electron-app")({ repo: "New-Club-Penguin/NewCP-App-Build" });
+
+if (process.platform != "darwin") require("update-electron-app")({ repo: "New-Club-Penguin/NewCP-App-Build" });
 const discord_client = require("discord-rich-presence")("793878460157788220");
 
 const ALLOWED_ORIGINS = [
