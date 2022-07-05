@@ -76,6 +76,8 @@ const createWindow = () => {
     }
   });
 
+  mainWindow.webContents.session.clearHostResolverCache();
+
   new Promise((resolve) =>
     setTimeout(() => {
       mainWindow.loadURL("https://newcp.net/");
