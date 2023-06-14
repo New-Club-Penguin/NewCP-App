@@ -114,7 +114,7 @@
     "@electron-forge/maker-flatpak": "^6.0.0-beta.64",
     "async-dialog": "0.0.1",
     "dialogs": "^2.0.1",
-    "discord-rich-presence": "^0.0.8",
+    "discord-rpc": "^4.0.1",
     "electron-prompt": "^1.6.0",
     "electron-squirrel-startup": "^1.0.0",
     "update-electron-app": "^2.0.1"
