@@ -22,8 +22,7 @@
       "packagerConfig": {
         "icon": "lib/icons/icon.icns"
       },
-      "makers": [
-        {
+      "makers": [{
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "newcp",
@@ -31,28 +30,23 @@
             "loadingGif": "./src/assets/default-splash.gif",
             "setupIcon": "./lib/icons/icon.ico"
           }
-        },
-        {
+        }, {
           "name": "@electron-forge/maker-zip",
           "platforms": [
             "darwin"
           ]
-        },
-        {
+        }, {
           "name": "@electron-forge/maker-dmg",
           "config": {
             "format": "ULFO"
           }
-        },
-        {
+        }, {
           "name": "@electron-forge/maker-deb",
           "config": {}
-        },
-        {
+        }, {
           "name": "@electron-forge/maker-rpm",
           "config": {}
-        },
-        {
+        }, {
           "name": "@electron-forge/maker-flatpak",
           "config": {
             "genericName": "NewCP",
@@ -60,12 +54,24 @@
             "categories": [
               "Game"
             ],
+            "modules": [{
+                "name": "zypak",
+                "sources": [{
+                    "type": "git",
+                    "url": "https://github.com/refi64/zypak",
+                    "tag": "v2022.04"
+                  }
+                ]
+              }
+            ],
+            "runtimeVersion": "22.08",
+            "baseVersion": "22.08",
             "icon": "./lib/icons/icon.ico"
           }
+
         }
       ],
-      "publishers": [
-        {
+      "publishers": [{
           "name": "@electron-forge/publisher-github",
           "config": {
             "repository": {
@@ -79,8 +85,7 @@
     }
   },
   "build": {
-    "extraResources": [
-      {
+    "extraResources": [{
         "from": "./lib/",
         "to": "lib",
         "filter": [
@@ -101,8 +106,7 @@
     "directories": {
       "buildResources": "lib"
     },
-    "protocols": [
-      {
+    "protocols": [{
         "name": "newcp",
         "schemes": [
           "newcp"
@@ -111,14 +115,13 @@
     ]
   },
   "dependencies": {
-    "@electron-forge/maker-flatpak": "^6.0.0-beta.64",
     "async-dialog": "0.0.1",
     "dialogs": "^2.0.1",
     "discord-rpc": "^4.0.1",
     "electron-prompt": "^1.6.0",
     "electron-squirrel-startup": "^1.0.0",
     "update-electron-app": "^2.0.1",
-		"es5-ext": "<=0.10.53"
+    "es5-ext": "<=0.10.53"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
@@ -127,6 +130,7 @@
     "@electron-forge/maker-dmg": "^6.0.0-beta.54",
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-flatpak": "^6.0.0-beta.64",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
     "@electron-forge/publisher-github": "^6.0.0-beta.54",
     "electron": "11.1.1"
