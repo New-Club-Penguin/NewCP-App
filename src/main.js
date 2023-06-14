@@ -1,23 +1,25 @@
 const { app, BrowserWindow, autoUpdater } = require("electron");
+const discord_integration = require('./integrations/discord');
 const path = require("path");
 
+// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+if (require("electron-squirrel-startup")) app.quit();
+
+// Check for updates except for macOS
 if (process.platform != "darwin") require("update-electron-app")({ repo: "New-Club-Penguin/NewCP-App-Build" });
-const discord_client = require("discord-rich-presence")("793878460157788220");
 
 const ALLOWED_ORIGINS = [
   "https://newcp.net",
   "https://play.newcp.net",
+  "https://appeal.newcp.net",
 ];
+
 const pluginPaths = {
   win32: path.join(path.dirname(__dirname), "lib/pepflashplayer.dll"),
   darwin: path.join(path.dirname(__dirname), "lib/PepperFlashPlayer.plugin"),
   linux: path.join(path.dirname(__dirname), "lib/libpepflashplayer.so"),
 };
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require("electron-squirrel-startup")) { // eslint-disable-line global-require
-  app.quit();
-  process.exit(0); // because squirrel
-}
+
 
 if (process.platform === "linux") app.commandLine.appendSwitch("no-sandbox");
 const pluginName = pluginPaths[process.platform];
@@ -61,13 +63,7 @@ const createWindow = () => {
       splashWindow.close();
       mainWindow.show();
     }
-  });
-  discord_client.updatePresence({
-    state: "Waddling",
-    details: "New Club Penguin",
-    startTimestamp: Date.now(),
-    largeImageKey: "ncpapp",
-    instance: true,
+    discord_integration.initDiscordRichPresence();
   });
 
   mainWindow.webContents.on("will-navigate", (event, urlString) => {
@@ -75,6 +71,8 @@ const createWindow = () => {
       event.preventDefault();
     }
   });
+  
+  mainWindow.on("closed", () => (mainWindow = null));
 
   mainWindow.webContents.session.clearHostResolverCache();
 
@@ -86,7 +84,9 @@ const createWindow = () => {
   );
 };
 
-if (app.requestSingleInstanceLock()) {
+const launchMain = () => {
+  // Disallow multiple clients running
+  if (!app.requestSingleInstanceLock()) return app.quit();
   app.on("second-instance", (_event, _commandLine, _workingDirectory) => {
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
@@ -94,10 +94,19 @@ if (app.requestSingleInstanceLock()) {
       mainWindow.focus();
     }
   });
-
-  app.on("ready", createWindow);
-
   app.setAsDefaultProtocolClient("newcp");
+
+  app.whenReady().then(() => {
+    createWindow();
+    
+    app.on("activate", () => {
+      // On OS X it's common to re-create a window in the app when the
+      // dock icon is clicked and there are no other windows open.
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+      }
+    });
+  })
 
   // Quit when all windows are closed, except on macOS. There, it's common
   // for applications and their menu bar to stay active until the user quits
@@ -105,19 +114,8 @@ if (app.requestSingleInstanceLock()) {
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
       app.quit();
-      discord_client.disconnect();
-      process.exit(0); // because squirrel
     }
   });
-
-  app.on("activate", () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
-} else {
-  app.quit();
-  process.exit(0); // because squirrel
 }
+
+launchMain();
