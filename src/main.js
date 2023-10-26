@@ -71,7 +71,9 @@ const createWindow = () => {
       event.preventDefault();
     }
   });
-  
+  app.on('before-quit', (e) => {
+    mainWindow.destroy()
+  })
   mainWindow.on("closed", () => (mainWindow = null));
 
   mainWindow.webContents.session.clearHostResolverCache();
