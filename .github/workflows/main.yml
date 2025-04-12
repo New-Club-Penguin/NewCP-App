@@ -1,59 +1,52 @@
-name: Build GCPC
+name: Build ClubPenguinClient App
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
-  # Triggers the workflow on push for production branch
-  push:
-    branches: 
-       - production
+    # Triggers the workflow on push for production branch
+    push:
+        branches:
+            - main
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    name: Build GCPC
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+    # This workflow contains a single job called "build"
+    build:
+        # The type of runner that the job will run on
+        name: Build ClubPenguinClient App
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [windows-latest, ubuntu-latest]
 
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '16.x'
+            - name: Setup Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: '12.x'
 
-      - name: Install dependencies
-        run: yarn
+            - name: Install dependencies
+              run: npm i
 
-      - name: Install flatpak
-        if: startsWith(matrix.os, 'ubuntu')
-        run: |
-          sudo apt-get install flatpak -y
-          sudo apt-get install flatpak-builder -y
-          sudo apt-get install elfutils -y
-          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          sudo flatpak install flathub org.freedesktop.Platform/x86_64/22.08 org.freedesktop.Sdk/x86_64/22.08 org.electronjs.Electron2.BaseApp/x86_64/22.08 -y
-          git config --global --add protocol.file.allow always
+            - name: Install flatpak
+              if: startsWith(matrix.os, 'ubuntu')
+              run: |
+                  sudo apt-get install flatpak -y
+                  sudo apt-get install flatpak-builder -y
+                  sudo apt-get install elfutils -y
+                  sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                  sudo flatpak install flathub org.freedesktop.Platform/x86_64/19.08 org.freedesktop.Sdk/x86_64/19.08 org.electronjs.Electron2.BaseApp/x86_64/stable -y
 
-      - name: Make and Publish (Ubuntu)
-        if: startsWith(matrix.os, 'ubuntu')
-        run: yarn run publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
+            - name: Make and Publish (WINDOWS)
+              if: startsWith(matrix.os, 'windows')
+              run: npm run publish-windows
+              env:
+                  GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
 
-      - name: Make and Publish (WINDOWS)
-        if: startsWith(matrix.os, 'windows')
-        run: yarn run publish-windows
-        env:
-          GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
-        
-      - name: Make and Publish (MAC)
-        if: startsWith(matrix.os, 'macos')
-        run: yarn run publish-mac
-        env:
-          GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
+            - name: Make and Publish (Ubuntu)
+              if: startsWith(matrix.os, 'ubuntu')
+              run: npm run publish
+              env:
+                  GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
