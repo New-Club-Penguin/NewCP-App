@@ -1,4 +1,4 @@
-name: Build NewCP-App
+name: Build GCPC
 
 # Controls when the action will run. 
 on:
