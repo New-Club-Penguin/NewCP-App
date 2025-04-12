@@ -1,4 +1,4 @@
-name: Build ClubPenguinClient App
+name: Build GCPC
 
 # Controls when the action will run.
 on:
@@ -12,7 +12,7 @@ jobs:
     # This workflow contains a single job called "build"
     build:
         # The type of runner that the job will run on
-        name: Build ClubPenguinClient App
+        name: Build GCPC
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
