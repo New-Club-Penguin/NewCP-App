@@ -9,9 +9,8 @@ if (require("electron-squirrel-startup")) app.quit();
 if (process.platform != "darwin") require("update-electron-app")({ repo: "New-Club-Penguin/NewCP-App-Build" });
 
 const ALLOWED_ORIGINS = [
-  "https://newcp.net",
-  "https://play.newcp.net",
-  "https://appeal.newcp.net",
+  "https://cpatake.net",
+  "https://play.cpatake.net",
 ];
 
 const pluginPaths = {
