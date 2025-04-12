@@ -60,7 +60,7 @@ const createWindow = () => {
 
   new Promise((resolve) =>
     setTimeout(() => {
-      mainWindow.loadURL("https://cpatake.net/");
+      mainWindow.loadURL("https://cpavalanche.net/");
       resolve();
     }, 5000)
   );
