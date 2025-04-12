@@ -1,8 +1,8 @@
 {
-  "name": "NewCP",
-  "productName": "NewCP",
+  "name": "Generic Club Penguin Client",
+  "productName": "GCPC",
   "version": "1.6.1",
-  "description": "NewCP App",
+  "description": "GCPC",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
