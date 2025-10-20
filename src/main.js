@@ -20,7 +20,6 @@ const pluginPaths = {
   linux: path.join(path.dirname(__dirname), "lib/libpepflashplayer.so"),
 };
 
-
 if (process.platform === "linux") app.commandLine.appendSwitch("no-sandbox");
 const pluginName = pluginPaths[process.platform];
 console.log("pluginName", pluginName);
@@ -71,19 +70,27 @@ const createWindow = () => {
       event.preventDefault();
     }
   });
-  app.on('before-quit', (e) => {
-    mainWindow.destroy()
-  })
+
+  app.on('before-quit', async () => {
+    await discord_integration.cleanupDiscord();
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.close();
+    }
+  });
+  
   mainWindow.on("closed", () => (mainWindow = null));
 
   mainWindow.webContents.session.clearHostResolverCache();
+  withTimeout(mainWindow.loadURL("https://newcp.net/"), 5000).catch(async () => {
+      await discord_integration.cleanupDiscord();
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.close();
+      }
 
-  new Promise((resolve) =>
-    setTimeout(() => {
-      mainWindow.loadURL("https://newcp.net/");
-      resolve();
-    }, 5000)
-  );
+      if (splashWindow && !splashWindow.isDestroyed()) {
+        splashWindow.close();
+      }
+  });
 };
 
 const launchMain = () => {
@@ -116,8 +123,21 @@ const launchMain = () => {
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
       app.quit();
+      process.exit(0);
     }
   });
+}
+
+async function withTimeout(promise, ms) {
+  const timeout = new Promise((_, reject) => {
+    const id = setTimeout(() => {
+      clearTimeout(id);
+      reject(new Error(`Operation timed out after ${ms} ms`));
+    }, ms);
+  });
+
+  // Race the original promise against the timeout
+  return Promise.race([promise, timeout]);
 }
 
 launchMain();
