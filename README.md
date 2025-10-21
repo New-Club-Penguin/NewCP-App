@@ -8,6 +8,12 @@ All contributions are welcome. People who discover bugs with the client may open
 
 **NOTE: The following instructions are for people who want to contribute. If you are here to play NewCP, please use our prebuilt binaries from [here](https://github.com/New-Club-Penguin/NewCP-App-Build/releases)**.
 
+### Requirements
+
+Visual Studio Build Tools with Desktop Development in C++
+Python 3.10 (<=3.11)
+Node 16 (works only on 16)
+
 ### Setup
 
 - Please make sure you have [nodejs](https://nodejs.org/en/download/) and [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable) installed. 
