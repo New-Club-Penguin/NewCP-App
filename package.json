@@ -116,23 +116,23 @@
   },
   "dependencies": {
     "async-dialog": "0.0.1",
-    "dialogs": "^2.0.1",
-    "discord-rpc": "^4.0.1",
-    "electron-prompt": "^1.6.0",
-    "electron-squirrel-startup": "^1.0.0",
-    "update-electron-app": "^2.0.1",
+    "dialogs": "2.0.1",
+    "discord-rpc": "4.0.1",
+    "electron-prompt": "1.6.0",
+    "electron-squirrel-startup": "1.0.0",
+    "update-electron-app": "2.0.1",
     "es5-ext": "<=0.10.53"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.54",
-    "@electron-forge/maker-appx": "^6.0.0-beta.54",
-    "@electron-forge/maker-deb": "^6.0.0-beta.54",
-    "@electron-forge/maker-dmg": "^6.0.0-beta.54",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
-    "@electron-forge/maker-flatpak": "^6.0.0-beta.64",
-    "@electron-forge/maker-zip": "^6.0.0-beta.54",
-    "@electron-forge/publisher-github": "^6.0.0-beta.54",
+    "@electron-forge/cli": "6.0.0-beta.54",
+    "@electron-forge/maker-appx": "6.0.0-beta.54",
+    "@electron-forge/maker-deb": "6.0.0-beta.54",
+    "@electron-forge/maker-dmg": "6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.54",
+    "@electron-forge/maker-flatpak": "6.0.0-beta.64",
+    "@electron-forge/maker-zip": "6.0.0-beta.54",
+    "@electron-forge/publisher-github": "6.0.0-beta.54",
     "electron": "11.1.1"
   }
 }
