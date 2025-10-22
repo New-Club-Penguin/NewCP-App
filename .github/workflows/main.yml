@@ -29,6 +29,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn
+        
+      - name: Install distutils
+        run: pip install setuptools
 
       - name: Install flatpak
         if: startsWith(matrix.os, 'ubuntu')
