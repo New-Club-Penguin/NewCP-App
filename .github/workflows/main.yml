@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest-large, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out the repository
@@ -27,12 +27,12 @@ jobs:
         with:
           node-version: '16.x'
 
+      - name: Install distutils
+        run: pip install setuptools
+        
       - name: Install dependencies
         run: yarn
         
-      - name: Install distutils
-        run: pip install setuptools
-
       - name: Install flatpak
         if: startsWith(matrix.os, 'ubuntu')
         run: |
