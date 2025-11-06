@@ -81,7 +81,7 @@ const createWindow = () => {
   mainWindow.on("closed", () => (mainWindow = null));
 
   mainWindow.webContents.session.clearHostResolverCache();
-  withTimeout(mainWindow.loadURL("https://newcp.net/"), 5000).catch(async () => {
+  withTimeout(mainWindow.loadURL("https://newcp.net/"), 60000).catch(async () => {
       await discord_integration.cleanupDiscord();
       if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.close();
