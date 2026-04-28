@@ -1,36 +1,49 @@
-const { app, BrowserWindow, autoUpdater } = require("electron");
-const discord_integration = require('./integrations/discord');
-const path = require("path");
+'use strict';
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require("electron-squirrel-startup")) app.quit();
+require('./checkNodeVersion');
 
-// Check for updates except for macOS
-if (process.platform != "darwin") require("update-electron-app")({ repo: "New-Club-Penguin/NewCP-App-Build" });
+const { app, BrowserWindow } = require('electron');
+const discord_integration    = require('./integrations/discord');
+const path                   = require('path');
+
+const initErrorHandlers = require('./errorHandler');
+initErrorHandlers(app);
+
+if (require('electron-squirrel-startup')) app.quit();
+
+if (process.platform !== 'darwin') {
+  require('update-electron-app')({ repo: 'New-Club-Penguin/NewCP-App-Build' });
+}
 
 const ALLOWED_ORIGINS = [
-  "https://newcp.net",
-  "https://play.newcp.net",
-  "https://appeal.newcp.net",
+  'https://newcp.net',
+  'https://play.newcp.net',
+  'https://appeal.newcp.net',
 ];
 
-const pluginPaths = {
-  win32: path.join(path.dirname(__dirname), "lib/pepflashplayer.dll"),
-  darwin: path.join(path.dirname(__dirname), "lib/PepperFlashPlayer.plugin"),
-  linux: path.join(path.dirname(__dirname), "lib/libpepflashplayer.so"),
+const PLUGIN_PATHS = {
+  win32:  path.join(path.dirname(__dirname), 'lib/pepflashplayer.dll'),
+  darwin: path.join(path.dirname(__dirname), 'lib/PepperFlashPlayer.plugin'),
+  linux:  path.join(path.dirname(__dirname), 'lib/libpepflashplayer.so'),
 };
 
-if (process.platform === "linux") app.commandLine.appendSwitch("no-sandbox");
-const pluginName = pluginPaths[process.platform];
-console.log("pluginName", pluginName);
+const pluginName = PLUGIN_PATHS[process.platform];
 
-app.commandLine.appendSwitch("ppapi-flash-path", pluginName);
-app.commandLine.appendSwitch("ppapi-flash-version", "31.0.0.122");
-app.commandLine.appendSwitch("ignore-certificate-errors");
+if (!pluginName) {
+  process.stderr.write(`[NewCP] Platform not supported: ${process.platform}\n`);
+  process.exit(1);
+}
+
+console.log('[NewCP] Flash plugin path:', pluginName);
+
+if (process.platform === 'linux') app.commandLine.appendSwitch('no-sandbox');
+app.commandLine.appendSwitch('ppapi-flash-path', pluginName);
+app.commandLine.appendSwitch('ppapi-flash-version', '31.0.0.122');
+app.commandLine.appendSwitch('ignore-certificate-errors');
 
 let mainWindow;
+
 const createWindow = () => {
-  // Create the browser window.
   let splashWindow = new BrowserWindow({
     width: 600,
     height: 320,
@@ -40,13 +53,9 @@ const createWindow = () => {
   });
 
   splashWindow.setResizable(false);
-  splashWindow.loadURL(
-    "file://" + path.join(path.dirname(__dirname), "src/index.html"),
-  );
-  splashWindow.on("closed", () => (splashWindow = null));
-  splashWindow.webContents.on("did-finish-load", () => {
-    splashWindow.show();
-  });
+  splashWindow.loadURL('file://' + path.join(path.dirname(__dirname), 'src/index.html'));
+  splashWindow.on('closed', () => { splashWindow = null; });
+  splashWindow.webContents.on('did-finish-load', () => splashWindow.show());
 
   mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
@@ -57,87 +66,80 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.webContents.on("did-finish-load", () => {
-    if (splashWindow) {
+  mainWindow.webContents.on('did-finish-load', () => {
+    if (splashWindow && !splashWindow.isDestroyed()) {
       splashWindow.close();
-      mainWindow.show();
     }
+    mainWindow.show();
     discord_integration.initDiscordRichPresence();
   });
 
-  mainWindow.webContents.on("will-navigate", (event, urlString) => {
-    if (!ALLOWED_ORIGINS.includes(new URL(urlString).origin)) {
+  mainWindow.webContents.on('will-navigate', (event, urlString) => {
+    try {
+      const origin = new URL(urlString).origin;
+      if (!ALLOWED_ORIGINS.includes(origin)) {
+        console.warn('[NewCP] URL blocked:', urlString);
+        event.preventDefault();
+      }
+    } catch (err) {
+      console.warn('[NewCP] URL invalid:', urlString);
       event.preventDefault();
     }
   });
 
   app.on('before-quit', async () => {
     await discord_integration.cleanupDiscord();
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.close();
-    }
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.close();
   });
-  
-  mainWindow.on("closed", () => (mainWindow = null));
+
+  mainWindow.on('closed', () => { mainWindow = null; });
 
   mainWindow.webContents.session.clearHostResolverCache();
-  withTimeout(mainWindow.loadURL("https://newcp.net/"), 60000).catch(async () => {
-      await discord_integration.cleanupDiscord();
-      if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.close();
-      }
-
-      if (splashWindow && !splashWindow.isDestroyed()) {
-        splashWindow.close();
-      }
+  
+  withTimeout(mainWindow.loadURL('https://newcp.net/'), 60000)
+  .catch(async (err) => {
+    console.error(`[NewCP] Timeout/Error Loaded: 60000ms —`, err.message);
+    await discord_integration.cleanupDiscord();
+    if (mainWindow   && !mainWindow.isDestroyed())   mainWindow.close();
+    if (splashWindow && !splashWindow.isDestroyed()) splashWindow.close();
   });
-};
 
 const launchMain = () => {
-  // Disallow multiple clients running
   if (!app.requestSingleInstanceLock()) return app.quit();
-  app.on("second-instance", (_event, _commandLine, _workingDirectory) => {
-    // Someone tried to run a second instance, we should focus our window.
+
+  app.on('second-instance', () => {
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore();
       mainWindow.focus();
     }
   });
-  app.setAsDefaultProtocolClient("newcp");
+
+  app.setAsDefaultProtocolClient('newcp');
 
   app.whenReady().then(() => {
     createWindow();
-    
-    app.on("activate", () => {
-      // On OS X it's common to re-create a window in the app when the
-      // dock icon is clicked and there are no other windows open.
-      if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
-      }
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
-  })
+  });
 
-  // Quit when all windows are closed, except on macOS. There, it's common
-  // for applications and their menu bar to stay active until the user quits
-  // explicitly with Cmd + Q.
-  app.on("window-all-closed", () => {
-    if (process.platform !== "darwin") {
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
       app.quit();
       process.exit(0);
     }
   });
-}
+};
 
 async function withTimeout(promise, ms) {
+  let timeoutId;
   const timeout = new Promise((_, reject) => {
-    const id = setTimeout(() => {
-      clearTimeout(id);
-      reject(new Error(`Operation timed out after ${ms} ms`));
-    }, ms);
+    timeoutId = setTimeout(
+      () => reject(new Error(`OPERATION CANCELLED: timeout de ${ms}ms`)),
+      ms
+    );
   });
-
-  // Race the original promise against the timeout
-  return Promise.race([promise, timeout]);
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timeoutId));
 }
 
 launchMain();
