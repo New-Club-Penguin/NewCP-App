@@ -17,7 +17,7 @@ if (major !== REQUIRED_MAJOR) {
       '║    nvm install 16 && nvm use 16                              ║',
       '║    (download: https://nodejs.org/dist/latest-v16.x/)         ║',
       '╠══════════════════════════════════════════════════════════════╣',
-      '║                    Made by markut                            ║',
+      '║                    Made by Vurkz                           ║',
       '╚══════════════════════════════════════════════════════════════╝',
       '',
     ].join('\n')
