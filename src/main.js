@@ -1,4 +1,4 @@
-const { app, BrowserWindow, autoUpdater } = require("electron");
+const { app, BrowserWindow, session } = require("electron");
 const discord_integration = require('./integrations/discord');
 const path = require("path");
 
@@ -6,27 +6,20 @@ const path = require("path");
 if (require("electron-squirrel-startup")) app.quit();
 
 // Check for updates except for macOS
-if (process.platform != "darwin") require("update-electron-app")({ repo: "New-Club-Penguin/NewCP-App-Build" });
+if (process.platform != "darwin") {
+  const { updateElectronApp } = require("update-electron-app");
+  updateElectronApp({
+    updateSource: {
+      repo: "New-Club-Penguin/NewCP-App-Build"
+    }
+  });
+}
 
 const ALLOWED_ORIGINS = [
   "https://newcp.net",
   "https://play.newcp.net",
   "https://appeal.newcp.net",
 ];
-
-const pluginPaths = {
-  win32: path.join(path.dirname(__dirname), "lib/pepflashplayer.dll"),
-  darwin: path.join(path.dirname(__dirname), "lib/PepperFlashPlayer.plugin"),
-  linux: path.join(path.dirname(__dirname), "lib/libpepflashplayer.so"),
-};
-
-if (process.platform === "linux") app.commandLine.appendSwitch("no-sandbox");
-const pluginName = pluginPaths[process.platform];
-console.log("pluginName", pluginName);
-
-app.commandLine.appendSwitch("ppapi-flash-path", pluginName);
-app.commandLine.appendSwitch("ppapi-flash-version", "31.0.0.122");
-app.commandLine.appendSwitch("ignore-certificate-errors");
 
 let mainWindow;
 const createWindow = () => {
@@ -52,9 +45,6 @@ const createWindow = () => {
     autoHideMenuBar: true,
     useContentSize: true,
     show: false,
-    webPreferences: {
-      plugins: true,
-    },
   });
 
   mainWindow.webContents.on("did-finish-load", () => {
@@ -80,7 +70,7 @@ const createWindow = () => {
   
   mainWindow.on("closed", () => (mainWindow = null));
 
-  mainWindow.webContents.session.clearHostResolverCache();
+  session.defaultSession.clearHostResolverCache();
   withTimeout(mainWindow.loadURL("https://newcp.net/"), 60000).catch(async () => {
       await discord_integration.cleanupDiscord();
       if (mainWindow && !mainWindow.isDestroyed()) {
