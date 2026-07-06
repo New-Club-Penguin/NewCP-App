@@ -59,13 +59,13 @@
                 "sources": [{
                     "type": "git",
                     "url": "https://github.com/refi64/zypak",
-                    "tag": "v2022.04"
+                    "tag": "v2025.09"
                   }
                 ]
               }
             ],
-            "runtimeVersion": "22.08",
-            "baseVersion": "22.08",
+            "runtimeVersion": "24.08",
+            "baseVersion": "24.08",
             "icon": "./lib/icons/icon.ico"
           }
 
