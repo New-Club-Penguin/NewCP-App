@@ -9,9 +9,7 @@ if (require("electron-squirrel-startup")) app.quit();
 if (process.platform != "darwin") {
   const { updateElectronApp } = require("update-electron-app");
   updateElectronApp({
-    updateSource: {
-      repo: "New-Club-Penguin/NewCP-App-Build"
-    }
+    repo: "New-Club-Penguin/NewCP-App-Build"
   });
 }
 
