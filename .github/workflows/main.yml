@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-2022]
 
     steps:
       - name: Check out the repository
@@ -35,12 +35,6 @@ jobs:
       - name: Setup MSBuild
         if: startsWith(matrix.os, 'windows')
         uses: microsoft/setup-msbuild@v2
-
-      - name: Setup Visual C++ Dev Environment
-        if: startsWith(matrix.os, 'windows')
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          vsversion: 2022
         
       - name: Install dependencies
         run: yarn
